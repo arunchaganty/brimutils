@@ -1,0 +1,14 @@
+#!/bin/bash
+
+PROGRAM="print $1.__doc__"
+
+if [ $# -lt 1 ]; then
+    print "Usage: pydoc <obj expr> [import expr]"
+    exit 1
+fi
+
+if [ ! -z $2 ]; then
+    PROGRAM="import $2; $PROGRAM"
+fi
+
+python -c "$PROGRAM"

@@ -1,0 +1,14 @@
+#!/bin/bash
+
+PROGRAM="print '\n'.join(dir($1))"
+
+if [ $# -lt 1 ]; then
+    print "Usage: pydir <obj expr> [import expr]"
+    exit 1
+fi
+
+if [ ! -z $2 ]; then
+    PROGRAM="import $2; $PROGRAM"
+fi
+
+python -c "$PROGRAM"
