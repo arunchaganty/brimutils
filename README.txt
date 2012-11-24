@@ -1,5 +1,4 @@
 brimutils
-Version 1.0.0
 Created and curated by Roy Frostig
 Last updated 11/23/12
 
