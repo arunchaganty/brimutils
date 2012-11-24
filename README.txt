@@ -8,32 +8,37 @@ coreutils.
 
 File structure:
 
-  bin/ -- Various pre-built utility binaries and scripts, usually
-  written by me.
+  bin/
+    Various pre-built utility binaries and scripts, usually written by
+    me.
 
-  ext/ -- Other projects that produce utility binaries and scripts,
-  usually written by others (often incporporated as git submodules.)
+  ext/
+    Other projects that produce utility binaries and scripts, usually
+    written by others (often incporporated as git submodules.)
 
-  aliases.sh -- Utils in disguise as bash aliases.
+  aliases.sh
+    Utils in disguise as bash aliases.
 
-  install.py -- Script for installing (hopefully) everything.  Run
-  without arguments to see usage and help.  A bit outdated; prefer
-  make (believe it or not).
+  Makefile
+    Rather crude and direct way to build and install.  Considers the
+    following environment variables.
 
-  Makefile -- More crude and direct way to build and install.  Takes
-  the following environment variables.
+    PREFIX
+      Binary install destination.
 
-    PREFIX:  Binary install destination.
+    ALIASES
+      File where bash aliases will go.
 
-    ALIASES: File where bash aliases will go.
+    CAREFUL
+      If set, do not install binaries if doing so will override a file
+      in destination.
 
-    CAREFUL: If set, do not install binaries if doing so will override
-    a file in destination.
+    NO_ALIASES
+      If set, ${ALIASES} is ignored and no alias commands are
+      installed.
 
-    NO_ALIASES: If set, ${ALIASES} is ignored and no alias commands
-    are installed.
-
-  README.txt -- You are here.
+  README.txt
+    You are here.
 
 ============================================================
 (C) Copyright 2012, Roy Frostig
