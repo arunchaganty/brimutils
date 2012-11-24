@@ -17,9 +17,21 @@ File structure:
   aliases.sh -- Utils in disguise as bash aliases.
 
   install.py -- Script for installing (hopefully) everything.  Run
-  without arguments to see usage and help.  A bit outdated.
+  without arguments to see usage and help.  A bit outdated; prefer
+  make (believe it or not).
 
-  Makefile -- More crude and direct way to build and install.
+  Makefile -- More crude and direct way to build and install.  Takes
+  the following environment variables.
+
+    PREFIX:  Binary install destination.
+
+    ALIASES: File where bash aliases will go.
+
+    CAREFUL: If set, do not install binaries if doing so will override
+    a file in destination.
+
+    NO_ALIASES: If set, ${ALIASES} is ignored and no alias commands
+    are installed.
 
   README.txt -- You are here.
 

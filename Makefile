@@ -45,8 +45,10 @@ install-check:
 	@echo ""
 	@echo "-- Preparing to install."
 	@echo ""
+ifdef CAREFUL
 	@$(foreach F, $(shell ls ${BINS}), \
 	   $(call file_not_exists, ${PREFIX}/$(shell basename $F)) &&) true
+endif
 
 install-bins:
 	@echo ""
