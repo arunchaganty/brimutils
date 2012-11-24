@@ -8,6 +8,7 @@ import stat
 import sys
 
 # TODO
+#   - git submodule init + update first.
 #   - Now that this is written, it appears a rewrite in far fewer
 #     lines of bash would be preferable.  (One plus of python is that
 #     we have sane getopt, unlike in darwin bash.  Another is that it
