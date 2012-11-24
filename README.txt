@@ -1,9 +1,9 @@
-exoutils
+brimutils
 Version 1.0.0
 Created and curated by Roy Frostig
 Last updated 11/23/12
 
-exoutils is a collection of fringe utilities to complement GNU
+brimutils is a collection of fringe utilities to complement GNU
 coreutils.
 
 File structure:

@@ -67,7 +67,7 @@ ifndef NO_ALIASES
 	mkdir -p $(shell dirname ${ALIASES})
 	echo "" >> ${ALIASES}
 	echo "" >> ${ALIASES}
-	echo "# Added by exoutils." >> ${ALIASES}
+	echo "# Added by brimutils." >> ${ALIASES}
 	cat ${ALIASES_SRC} >> ${ALIASES}
 else
 	@echo ""
