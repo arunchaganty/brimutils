@@ -17,7 +17,9 @@ File structure:
   aliases.sh -- Utils in disguise as bash aliases.
 
   install.py -- Script for installing (hopefully) everything.  Run
-  without arguments to see usage and help.
+  without arguments to see usage and help.  A bit outdated.
+
+  Makefile -- More crude and direct way to build and install.
 
   README.txt -- You are here.
 
