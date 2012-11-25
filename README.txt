@@ -19,8 +19,8 @@ File structure:
     Utils in disguise as bash aliases.
 
   Makefile
-    Rather crude and direct way to build and install.  Considers the
-    following environment variables.
+    Automatic build and install.  Considers the following environment
+    variables.
 
     PREFIX
       Binary install destination.
