@@ -13,7 +13,7 @@ File structure:
 
   ext/
     Other projects that produce utility binaries and scripts, usually
-    written by others (often incporporated as git submodules.)
+    written by others (often incporporated as git submodules).
 
   aliases.sh
     Utils in disguise as bash aliases.
