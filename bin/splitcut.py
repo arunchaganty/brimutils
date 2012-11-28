@@ -1,7 +1,9 @@
 #!/usr/bin/env python
 
+import os
+
 def splitcut(l, fields=None, delim=None):
-    l = l.rstrip()
+    l = l.rstrip(os.linesep)
     l = l.split(delim)
     if fields is None:
         cuts = l
