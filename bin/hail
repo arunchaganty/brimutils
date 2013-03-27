@@ -1,0 +1,13 @@
+#!/bin/bash
+
+#
+# Usage: hail <START> <END> [FILENAME]
+#
+# Prints lines from START (inclusive) to END (exclusive).  If no
+# FILENAME, reads from STDIN.
+#
+
+leading=`echo "$2 - 1" | bc`
+delta=`echo "$2 - $1" | bc`
+
+cat $3 | head -n $leading | tail -n $delta
