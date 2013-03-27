@@ -1,0 +1,80 @@
+#!/bin/bash
+
+# TODO:
+# - Proper getopt both up here and down below.
+
+if [ ! -z $1 ] && ([ $1 == '--help' ] || [ $1 == '-help' ] || [ $1 == '--usage' ] || [ $1 == '-usage' ]); then
+    cat <<'EOF'
+Usage: drop [OPTIONS] [FILENAME]
+
+Copies to a file in Dropbox public folder with hash of contents as
+filename (optionally prefixed).
+
+Outputs the dropbox public file URL on STDOUT.  If FILENAME is not
+given, reads input from STDIN.
+
+Possible OPTIONS are
+
+  -p --preserve-name
+      Preserve the name of FILENAME if reading a file, rather than
+      naming it with the content hash.
+
+Requires the following to be defined in environment or in ~/.brim:
+
+  DROPBOX_HOME
+      Path to Dropbox main directory.
+
+  DROPBOX_DROP_PREFIX
+      [Optional]  Path prefix for public filename within the Dropbox
+      public folder.  Userful for copying to a subdirectory of the
+      Dropbox public folder.
+
+  DROPBOX_PUBLIC_URL
+      Dropbox public folder URL root.  Used to create output.
+
+EOF
+    exit 0
+fi
+
+if [ -f ${HOME}/.brim ]; then
+   . ${HOME}/.brim
+fi
+
+if [ -z $DROPBOX_HOME ]; then
+   echo 'Need $DROPBOX_HOME defined in environment or in ~/.brim'
+   exit 1
+fi
+
+if [ ! -d $DROPBOX_HOME ]; then
+   echo "$DROPBOX_HOME is not a directory"
+   exit 1
+fi
+
+in_f=$1
+out_f=
+
+if [ ! -z $1 ] && ([ $1 == '-p' ] || [ $1 == '--preserve-name' ]); then
+    if [ -z $2 ]; then
+        echo "$1 option requires named input FILENAME."
+        exit 1
+    else
+        in_f=$2
+        out_f=$in_f
+    fi
+fi
+
+cp_or_mv=cp
+
+if [ -z $in_f ]; then
+    in_f=`mktemp`
+    cp_or_mv=mv
+    cat > $in_f
+fi
+
+if [ -z $out_f ]; then
+    out_f=`cat $in_f | shasum | cut -f1 -d' '`
+fi
+
+$cp_or_mv $in_f $DROPBOX_HOME/Public/${DROPBOX_DROP_PREFIX}$out_f
+
+echo ${DROPBOX_PUBLIC_URL}${DROPBOX_DROP_PREFIX}$out_f
