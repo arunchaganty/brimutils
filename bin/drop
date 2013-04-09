@@ -5,7 +5,7 @@
 
 if [ ! -z $1 ] && ([ $1 == '--help' ] || [ $1 == '-help' ] || [ $1 == '--usage' ] || [ $1 == '-usage' ]); then
     cat <<'EOF'
-Usage: drop [OPTIONS] [FILENAME]
+Usage: drop [OPTION] [FILENAME]
 
 Copies to a file in Dropbox public folder with hash of contents as
 filename (optionally prefixed).
@@ -13,11 +13,19 @@ filename (optionally prefixed).
 Outputs the dropbox public file URL on STDOUT.  If FILENAME is not
 given, reads input from STDIN.
 
-Possible OPTIONS are
+Possible OPTIONs are
 
   -p --preserve-name
       Preserve the name of FILENAME if reading a file, rather than
       naming it with the content hash.
+
+  -e --preserve-file-ending
+      Preserve the file ending of FILENAME if reading a file an a file
+      ending exists.  The resulting filename is the content hash with
+      the file ending appended.
+
+Only one option is allowed right now.  That's perhaps acceptable since
+they're mutually exclusive.
 
 Requires the following to be defined in environment or in ~/.brim:
 
@@ -52,14 +60,20 @@ fi
 
 in_f=$1
 out_f=
+out_f_suffix=
 
-if [ ! -z $1 ] && ([ $1 == '-p' ] || [ $1 == '--preserve-name' ]); then
-    if [ -z $2 ]; then
-        echo "$1 option requires named input FILENAME."
-        exit 1
-    else
+if [ ! -z $1 ]; then
+    if ([ $1 == '-p' ] || [ $1 == '--preserve-name' ]); then
+        if [ -z $2 ]; then
+            echo "$1 option requires named input FILENAME."
+            exit 1
+        else
+            in_f=$2
+            out_f=$in_f
+        fi
+    elif ([ $1 == '-e' ] || [ $1 == '--preserve-file-ending' ]); then
         in_f=$2
-        out_f=$in_f
+        out_f_suffix="${in_f##*.}"
     fi
 fi
 
@@ -75,6 +89,6 @@ if [ -z $out_f ]; then
     out_f=`cat $in_f | shasum | cut -f1 -d' '`
 fi
 
-$cp_or_mv $in_f $DROPBOX_HOME/Public/${DROPBOX_DROP_PREFIX}$out_f
+$cp_or_mv $in_f ${DROPBOX_HOME}/Public/${DROPBOX_DROP_PREFIX}${out_f}.${out_f_suffix}
 
-echo ${DROPBOX_PUBLIC_URL}${DROPBOX_DROP_PREFIX}$out_f
+echo ${DROPBOX_PUBLIC_URL}${DROPBOX_DROP_PREFIX}${out_f}.${out_f_suffix}
