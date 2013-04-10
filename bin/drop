@@ -73,7 +73,7 @@ if [ ! -z $1 ]; then
         fi
     elif ([ $1 == '-e' ] || [ $1 == '--preserve-file-ending' ]); then
         in_f=$2
-        out_f_suffix="${in_f##*.}"
+        out_f_suffix=".${in_f##*.}"
     fi
 fi
 
@@ -89,6 +89,6 @@ if [ -z $out_f ]; then
     out_f=`cat $in_f | shasum | cut -f1 -d' '`
 fi
 
-$cp_or_mv $in_f ${DROPBOX_HOME}/Public/${DROPBOX_DROP_PREFIX}${out_f}.${out_f_suffix}
+$cp_or_mv $in_f ${DROPBOX_HOME}/Public/${DROPBOX_DROP_PREFIX}${out_f}${out_f_suffix}
 
-echo ${DROPBOX_PUBLIC_URL}${DROPBOX_DROP_PREFIX}${out_f}.${out_f_suffix}
+echo ${DROPBOX_PUBLIC_URL}${DROPBOX_DROP_PREFIX}${out_f}${out_f_suffix}
