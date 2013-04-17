@@ -80,7 +80,7 @@ fi
 cp_or_mv=cp
 
 if [ -z $in_f ]; then
-    in_f=`mktemp`
+    in_f=`mktemp /tmp/drop.XXXXXXXXXX`
     cp_or_mv=mv
     cat > $in_f
 fi
