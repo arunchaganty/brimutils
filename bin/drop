@@ -69,7 +69,7 @@ if [ ! -z $1 ]; then
             exit 1
         else
             in_f=$2
-            out_f=$in_f
+            out_f=`basename $in_f`
         fi
     elif ([ $1 == '-e' ] || [ $1 == '--preserve-file-ending' ]); then
         in_f=$2
