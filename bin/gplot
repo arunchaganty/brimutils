@@ -1,0 +1,31 @@
+#!/bin/bash
+
+set -e
+
+title="$1"
+if [ -z $title ]; then
+    title="plot"
+fi
+shift;
+
+in_fs=$@
+if [ -z "${in_fs[*]}" ]; then
+    # Read stdin
+    in_fs=`mktemp /tmp/gplot.XXXXXXXXXX`
+    cat > $in_fs
+fi
+
+# A HA HAHA AHAHAA HAHAHAA
+plotargs=`python -c 'import sys; print ", ".join("\"" + f + "\" using 1:2 with linespoints" for f in sys.argv[1:])' $in_fs`
+
+gnuplot <<EOF
+set autoscale                          # scale axes automatically
+unset log                              # remove any log-scaling
+unset label                            # remove any previous labels
+set xtic auto                          # set xtics automatically
+set ytic auto                          # set ytics automatically
+set title "$title"
+set terminal png
+set output "$title.png"
+plot ${plotargs[*]}
+EOF
