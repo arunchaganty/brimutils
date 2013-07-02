@@ -1,0 +1,46 @@
+#!/bin/bash
+
+set -e
+
+title="$1"
+if [ -z $title ]; then
+    title="plot"
+fi
+shift;
+
+in_f="$1"
+if [ -z "$in_f" ]; then
+    # Read stdin
+    in_f=`mktemp /tmp/gheat.XXXXXXXXXX`
+    cat > $in_f
+fi
+
+xrange=`head -n 1 $in_f | awk '{ print NF }'`
+yrange=`wc -l $in_f | awk '{ print $1 }'`
+xrange=`echo $xrange - 0.5 | bc`
+yrange=`echo $yrange - 0.5 | bc`
+
+echo $xrange
+echo $yrange
+
+gnuplot <<EOF
+unset key
+set tic scale 0
+
+# Color runs from white to green
+set palette rgbformula 22,13,10
+set palette negative
+#set cbrange [-500:500]
+#set cbrange auto
+#set cblabel "Score"
+#unset cbtics
+
+set xrange [-0.5:$xrange]
+set yrange [-0.5:$yrange]
+set xtic 1
+
+set terminal png
+set output "$title.png"
+set view map
+splot "$in_f" matrix with image
+EOF
