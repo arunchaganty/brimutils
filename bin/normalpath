@@ -1,0 +1,7 @@
+#!/bin/bash
+
+if [ -z "$1" ]; then
+    pwd
+else
+    echo $(cd $1 && pwd)
+fi
