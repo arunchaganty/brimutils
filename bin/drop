@@ -24,6 +24,13 @@ Possible OPTIONs are
       ending exists.  The resulting filename is the content hash with
       the file ending appended.
 
+  -d --echo-directory
+      Ignore input and don't copy anything to Dropbox public folder.
+      Instead, just echo the Dropbox public directory to stdout.
+      Useful for the following in a shell:
+
+        $ cd `drop -d`
+
 Only one option is allowed right now.  That's perhaps acceptable since
 they're mutually exclusive.
 
@@ -63,7 +70,10 @@ out_f=
 out_f_suffix=
 
 if [ ! -z $1 ]; then
-    if ([ $1 == '-p' ] || [ $1 == '--preserve-name' ]); then
+    if ([ $1 == '-d' ] || [ $1 == '--echo-directory' ]); then
+        echo $(normalpath $(dirname ${DROPBOX_HOME}/Public/${DROPBOX_DROP_PREFIX}x))
+        exit 0
+    elif ([ $1 == '-p' ] || [ $1 == '--preserve-name' ]); then
         if [ -z $2 ]; then
             echo "$1 option requires named input FILENAME."
             exit 1
