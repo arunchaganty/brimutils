@@ -1,0 +1,41 @@
+#!/usr/bin/env python
+
+from argparse import ArgumentParser
+from xml.dom import minidom
+try:
+    from urllib.request import urlopen
+    from urllib.parse import urlencode
+except ImportError:
+    from urllib import urlopen, urlencode
+
+API = 'http://weather.yahooapis.com/forecastrss?'
+
+CITY_IDS = {
+    'paloalto': 2467861,
+    'stanford': 2467861,
+    'sunnyvale': 2502265,
+    'sanfrancisco': 2502265,
+}
+
+FIELDS = ['day', 'low', 'high', 'text']
+
+def parse_args():
+    p = ArgumentParser(prog='weather')
+    p.add_argument('location', nargs='+')
+    p.add_argument('--units', choices='cf', default='f')
+    return p.parse_args()
+
+def main(args):
+    for loc in args.location:
+        print '--- ' + loc + ' ' + '-' * (30 - len(loc) - 5)
+        url = API + urlencode({'w': CITY_IDS[loc], 'u': args.units.lower()})
+        xml = urlopen(url).read()
+        doc = minidom.parseString(xml)
+        days = doc.documentElement.getElementsByTagName('yweather:forecast')
+        info = [[(f, d.getAttribute(f)) for f in FIELDS] for d in days]
+        print '\n\n'.join('  \n'.join(k + ': ' + v for k, v in day) for day in info)
+        print ''
+
+if __name__ == '__main__':
+    args = parse_args()
+    main(args)
