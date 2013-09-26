@@ -12,9 +12,13 @@ API = 'http://weather.yahooapis.com/forecastrss?'
 
 CITY_IDS = {
     'paloalto': 2467861,
+    'pa': 2467861,
     'stanford': 2467861,
+    'stan': 2467861,
     'sunnyvale': 2502265,
+    'sv': 2502265,
     'sanfrancisco': 2502265,
+    'sf': 2502265,
 }
 
 FIELDS = ['day', 'low', 'high', 'text']
